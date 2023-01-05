@@ -21,3 +21,10 @@ def update_task_description(task_id: int, description: str) -> None:
     query = f"UPDATE tasks SET task = '{description}', change_time = '{datetime.now()}' WHERE id = {task_id}"
     db.session.execute(query)
     db.session.commit()
+
+
+def update_task_status(task_id: int, status: int) -> None:
+    from datetime import datetime
+    query = f"UPDATE tasks SET status = '{status}', change_time = '{datetime.now()}' WHERE id = {task_id}"
+    db.session.execute(query)
+    db.session.commit()

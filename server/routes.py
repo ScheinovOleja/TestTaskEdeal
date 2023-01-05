@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+
 from utils.db import database as db
 
 app = Blueprint('server_app', __name__)
@@ -28,6 +29,17 @@ def update(task_id):
     try:
         db.update_task_description(task_id, data['description'])
         result = {"Success": True, "Response": f"Task description successfully updated."}
+    except:
+        result = {"Success": False, "Response": "Something went wrong"}
+    return jsonify(result)
+
+
+@app.route("/edit/status/<int:task_id>", methods=['POST'])
+def update(task_id):
+    data = request.get_json()
+    try:
+        db.update_task_status(task_id, data['status'])
+        result = {"Success": True, "Response": f"Task status successfully updated."}
     except:
         result = {"Success": False, "Response": "Something went wrong"}
     return jsonify(result)
