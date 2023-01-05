@@ -23,23 +23,18 @@ def delete(task_id):
     return jsonify(result)
 
 
-@app.route("/edit/description/<int:task_id>", methods=['POST'])
-def update_description(task_id):
+@app.route("/edit/<int:task_id>", methods=["POST"])
+def update(task_id):
     data = request.get_json()
     try:
-        db.update_task_description(task_id, data['description'])
-        result = {"Success": True, "Response": f"Task description successfully updated."}
+        if data['description']:
+            db.update_task_description(task_id, data['description'])
+            result = {"Success": True, "Response": "Task description successfully updated."}
+        elif data['status']:
+            db.update_task_status(task_id, data['status'])
+            result = {"Success": True, "Response": "Task status successfully updated."}
+        else:
+            result = {"Success": False, "Response": "No data to update"}
     except:
-        result = {"Success": False, "Response": "Something went wrong"}
-    return jsonify(result)
-
-
-@app.route("/edit/status/<int:task_id>", methods=['POST'])
-def update_status(task_id):
-    data = request.get_json()
-    try:
-        db.update_task_status(task_id, data['status'])
-        result = {"Success": True, "Response": f"Task status successfully updated."}
-    except:
-        result = {"Success": False, "Response": "Something went wrong"}
+        result = {'success': False, 'response': 'Something went wrong'}
     return jsonify(result)
