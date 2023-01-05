@@ -10,3 +10,13 @@ def delete_later_30_days(func):
 
     delete_entry.__name__ = func.__name__
     return delete_entry
+
+
+def session_action(func):
+    def commit_database(*args, **kwargs):
+        query = func(*args, **kwargs)
+        db.session.execute(query)
+        db.session.commit()
+
+    commit_database.__name__ = func.__name__
+    return commit_database

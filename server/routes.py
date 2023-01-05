@@ -10,8 +10,8 @@ app = Blueprint('server_app', __name__)
 @delete_later_30_days
 def create():
     data = request.get_json()
-    task_id = db.create_new_task(data['description'])
-    result = {"Success": True, "Response": f"New task successfully created. Task_id - {task_id}"}
+    db.create_new_task(data['description'])
+    result = {"Success": True, "Response": f"New task successfully created."}
     return jsonify(result)
 
 
