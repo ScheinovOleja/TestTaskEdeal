@@ -24,7 +24,7 @@ def delete(task_id):
 
 
 @app.route("/edit/description/<int:task_id>", methods=['POST'])
-def update(task_id):
+def update_description(task_id):
     data = request.get_json()
     try:
         db.update_task_description(task_id, data['description'])
@@ -35,7 +35,7 @@ def update(task_id):
 
 
 @app.route("/edit/status/<int:task_id>", methods=['POST'])
-def update(task_id):
+def update_status(task_id):
     data = request.get_json()
     try:
         db.update_task_status(task_id, data['status'])
