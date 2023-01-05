@@ -14,8 +14,13 @@ def delete_later_30_days(func):
 
 def session_action(func):
     def commit_database(*args, **kwargs):
-        query = func(*args, **kwargs)
-        db.session.execute(query)
+        obj, action = func(*args, **kwargs)
+        if action == "execute":
+            db.session.execute(obj)
+        elif action == "add":
+            db.session.add(obj)
+        else:
+            return
         db.session.commit()
 
     commit_database.__name__ = func.__name__
