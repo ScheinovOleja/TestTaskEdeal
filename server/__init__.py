@@ -19,6 +19,9 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    from .routes import app as server_app
+    app.register_blueprint(server_app)
+
     with app.app_context():
         db.create_all()
 
