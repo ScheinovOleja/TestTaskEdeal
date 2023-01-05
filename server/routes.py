@@ -1,11 +1,15 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
+from utils.db import database as db
 
 app = Blueprint('server_app', __name__)
 
 
 @app.route("/create", methods=['POST'])
 def create():
-    pass
+    data = request.get_json()
+    task_id = db.create_new_task(data['description'])
+    result = {"Success": True, "Response": f"New task successfully created. Task_id - {task_id}"}
+    return jsonify(result)
 
 
 @app.route("/delete/<int:task_id>", methods=['POST'])
