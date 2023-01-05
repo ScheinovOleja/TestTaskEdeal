@@ -40,5 +40,19 @@ def update(task_id):
         else:
             result = {"Success": False, "Response": "No data to update"}
     except:
-        result = {'success': False, 'response': 'Something went wrong'}
+        result = {'success': False, 'Response': 'Something went wrong'}
+    return jsonify(result)
+
+
+@app.route("/get/<int:task_id>", methods=["GET"])
+def get(task_id):
+    task = db.get_task(task_id)
+    from utils.db.models import Tasks
+    result = {
+        "Success": True,
+        "Response": {
+            "Description": task[0],
+            "Status": Tasks.STATUSES[task[1]]
+        }
+    }
     return jsonify(result)

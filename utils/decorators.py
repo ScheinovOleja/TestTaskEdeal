@@ -25,6 +25,9 @@ def session_action(action):
                 db.session.execute(obj)
             elif action == "add":
                 db.session.add(obj)
+            elif action == "get":
+                result = db.session.execute(obj)
+                return result.fetchone()
             else:
                 return
             db.session.commit()

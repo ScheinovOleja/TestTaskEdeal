@@ -14,10 +14,10 @@ class User(UserMixin, db.Model):
 
 
 class Tasks(db.Model):
-    STATUSES = [
-        ('During', 0),
-        ('Decided', 1)
-    ]
+    STATUSES = {
+        0: "During",
+        1: "Decided"
+    }
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(255), nullable=False)
     status = db.Column(db.Integer)

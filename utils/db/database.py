@@ -27,3 +27,10 @@ def update_task_status(task_id: int, status: int) -> str:
     from datetime import datetime
     query = f"UPDATE tasks SET status = '{status}', change_time = '{datetime.now()}' WHERE id = {task_id}"
     return query
+
+
+@session_action("get")
+def get_task(task_id: int) -> str:
+    query = f"SELECT task, status FROM tasks WHERE id={task_id}"
+    return query
+
