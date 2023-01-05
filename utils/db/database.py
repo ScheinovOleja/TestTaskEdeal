@@ -14,3 +14,10 @@ def remove_task(task_id: int) -> None:
     query = f"DELETE FROM tasks WHERE id={task_id};"
     db.session.execute(query)
     db.session.commit()
+
+
+def update_task_description(task_id: int, description: str) -> None:
+    from datetime import datetime
+    query = f"UPDATE tasks SET task = '{description}', change_time = '{datetime.now()}' WHERE id = {task_id}"
+    db.session.execute(query)
+    db.session.commit()

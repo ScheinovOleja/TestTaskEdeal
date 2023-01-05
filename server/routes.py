@@ -22,6 +22,12 @@ def delete(task_id):
     return jsonify(result)
 
 
-@app.route("/edit/<int:task_id>", methods=['POST'])
+@app.route("/edit/description/<int:task_id>", methods=['POST'])
 def update(task_id):
-    pass
+    data = request.get_json()
+    try:
+        db.update_task_description(task_id, data['description'])
+        result = {"Success": True, "Response": f"Task description successfully updated."}
+    except:
+        result = {"Success": False, "Response": "Something went wrong"}
+    return jsonify(result)
