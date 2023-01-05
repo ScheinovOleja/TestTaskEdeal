@@ -1,3 +1,5 @@
+from functools import wraps
+
 from server import db
 
 
@@ -12,16 +14,21 @@ def delete_later_30_days(func):
     return delete_entry
 
 
-def session_action(func):
-    def commit_database(*args, **kwargs):
-        obj, action = func(*args, **kwargs)
-        if action == "execute":
-            db.session.execute(obj)
-        elif action == "add":
-            db.session.add(obj)
-        else:
-            return
-        db.session.commit()
+def session_action(action):
+    def commit_database(func):
+        commit_database.__name__ = func.__name__
 
-    commit_database.__name__ = func.__name__
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            obj = func(*args, **kwargs)
+            if action == "execute":
+                db.session.execute(obj)
+            elif action == "add":
+                db.session.add(obj)
+            else:
+                return
+            db.session.commit()
+
+        return wrapper
+
     return commit_database
