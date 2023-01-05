@@ -14,7 +14,12 @@ def create():
 
 @app.route("/delete/<int:task_id>", methods=['POST'])
 def delete(task_id):
-    pass
+    try:
+        db.remove_task(task_id)
+        result = {"Success": True, "Response": f"Task successfully removed."}
+    except:
+        result = {"Success": False, "Response": "Something went wrong"}
+    return jsonify(result)
 
 
 @app.route("/edit/<int:task_id>", methods=['POST'])
